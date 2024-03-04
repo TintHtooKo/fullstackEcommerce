@@ -1,0 +1,55 @@
+.kid{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 100px;
+}
+
+.kid h1{
+    font-weight: bold;
+    font-size: 4rem;
+    margin-top: 5%;
+    text-align: center;
+}
+
+.kid hr{
+    width: 400px;
+    height: 6px;
+    border-radius: 10px;
+    background-color: red;
+}
+
+.kid-collections{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    margin-top: 50px;
+    gap: 30px;
+    margin-left: 5%;
+}
+
+@media (max-width:992px) {
+    .kid h1{
+        font-size: 3rem;
+    }
+
+    
+
+    .kid-collections{
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+@media (max-width:576px) {
+    .kid h1{
+        font-size: 2rem;
+    }
+
+    .kid hr{
+        width: 200px;
+    }
+
+    .kid-collections{
+        grid-template-columns: 1fr;
+    }
+}

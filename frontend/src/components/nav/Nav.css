@@ -1,0 +1,130 @@
+nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 20px 40px ;
+}
+
+.logo a img{
+    width: 270px;
+    height: 80px;
+}
+
+ul{
+    display: flex;
+    align-items: center;
+}
+
+ul li{
+    list-style-type: none;
+    margin-left: 50px;
+}
+
+ul li a{
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+
+ul li a:hover{
+    color: red;
+}
+
+.cart{
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+}
+
+
+.res-mob{
+    cursor: pointer;
+    display: none;
+}
+
+.button{
+    text-decoration: none;
+    border: 1px solid black;
+    padding: 10px 25px;
+    border-radius: 10px;
+    color: black;
+   
+}
+
+
+.button:hover{
+    color: white;
+    background-color: red;
+    border:1px solid red;
+}
+
+@media (max-width:576px){
+    .res-mob{
+        display: flex;
+        position: relative;
+        align-items: center;
+        left: 70%;
+        bottom: 50px;
+    }
+
+    .res-mob .bar{
+        width: 40px;
+        height: 40px;
+        margin-left: 40px;
+    }
+
+    .nav{
+        gap: 50px;
+    }
+
+
+    nav ul{
+        display: none;
+        flex-direction: column;
+        width: 80%;
+        background-color: transparent;
+        border-radius: 10px;
+        border: 1px solid gray;
+        margin-left: 10%;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+    }
+
+    nav ul.open{
+        display: flex;
+        
+    }
+
+    nav ul li{
+        
+        margin: 20px 0;
+    }
+
+    nav ul li a{
+        color: black;
+        font-size: 1rem;
+        text-align: center;
+    }
+
+    .button{
+        padding: 10px 15px;
+    }
+
+    nav{
+        flex-direction: column;
+        align-items: start;
+    }
+
+    .res{
+        display: none;
+    }
+
+
+
+    .cart{
+        width: 30px;
+        height: 30px;
+        margin-left: 20px;
+    }
+
+    
+}

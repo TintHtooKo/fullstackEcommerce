@@ -1,0 +1,106 @@
+ .detail{
+    display: flex;
+    align-items: start;
+    justify-content: space-around;
+    margin: 50px 50px;
+    padding: 20px;
+ }
+
+ .product-detail{
+    margin: 30px;
+ }
+
+ .product-image img{
+    width: 350px;
+    height: 450px;
+    border-radius: 10px;
+    margin: 30px;
+ }
+
+ .price{
+    display: flex;
+    gap: 20px;
+ }
+
+ .price .old-price{
+    text-decoration: line-through;
+    color: gray;
+ }
+
+ .bbtn{
+    display: flex;
+    align-items: center;
+    gap: 30px;
+ }
+
+ .bbtn a{
+    text-decoration: none;
+    border: 1px solid #f86103;
+    background-color: #f86103;
+    font-size: 1.5rem;
+    color: white;
+    padding: 5px 100px;
+    border-radius: 10px;
+    box-shadow: 6px 6px #c44c02;
+    transition: transform 0.2s, box-shadow 0.2s;
+ }
+
+ .bbtn a:hover{
+    transform: scale(1.05);
+ }
+
+ .bbtn a:active{
+    transform: translateX(6px) translateY(6px);
+    box-shadow: 0px 0px;
+ }
+
+ .bbtn button i{
+    font-size: 2rem;
+    color: white;
+ }
+
+
+ .bbtn button{
+    border: none;
+    padding: 5px 20px;
+    border-radius: 5px;
+    background-color: #f86103;
+    box-shadow: 6px 6px #c44c02;
+    transition: transform 0.2s, box-shadow 0.2s;
+ }
+
+ .bbtn button:hover{
+    transform: scale(1.05);
+ }
+
+ .bbtn button:active{
+    transform: translateX(6px) translateY(6px);
+    box-shadow: 0px 0px;
+ }
+
+ @media (max-width:576px){
+   .detail{
+      flex-direction: column;
+      margin: 10px 10px;
+   }
+
+   .product-image img{
+      width: 250px;
+      height: 300px;
+      border-radius: 10px;
+   }
+
+   .product-detail p{
+      font-size: 0.8rem;
+      width: 90%;
+   }
+
+   .bbtn a{
+      font-size: 1rem;
+      padding: 5px 50px;
+   }
+
+   .bbtn button i{
+      font-size: 1rem;
+   }
+ }

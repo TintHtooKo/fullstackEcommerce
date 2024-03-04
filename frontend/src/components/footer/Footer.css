@@ -1,0 +1,26 @@
+.logo img{
+    width: 300px;
+    height: 90px;
+}
+
+.footer{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background-color: rgba(255,0,0,0.5);
+    padding: 20px 0;
+}
+
+.contact h3{
+    color: white;
+}
+
+.contact form label{
+    color: white;
+}
+
+@media (max-width:576px){
+    .footer{
+        flex-direction: column;
+    }
+}

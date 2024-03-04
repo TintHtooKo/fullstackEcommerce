@@ -1,0 +1,66 @@
+.product{
+    display: flex;
+    flex-direction: row;
+}
+
+.product-left{
+    background: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.6)),url('../../assets/woman.jpg');
+    display: flex;
+    align-items: center;
+    height: 70vh;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+}
+
+.product-right{
+    background: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0)),url('../../assets/woman1.jpg');
+    display: flex;
+    align-items: center;
+    height: 70vh;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+}
+
+.product-right img{
+    width: 700px;
+    height: 200px;
+}
+
+.product-left h1{
+    color: white;
+    font-size: 4rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+@media (max-width:992px){
+    .product-right img{
+        width: 450px;
+        height: 90px;
+    }
+
+    .product-left h1{
+        font-size: 3rem;
+    }
+}
+
+@media (max-width:576px){
+    .product-right img{
+        width: 150px;
+        height: 50px;
+    }
+
+    .product-right{
+        height: 50vh;
+    }
+
+    .product-left{
+        height: 50vh;
+    }
+
+    .product-left h1{
+        font-size: 2rem;
+    }
+}
