@@ -33,7 +33,7 @@
     gap: 30px;
  }
 
- .bbtn a{
+  .bbtn .buy{
     text-decoration: none;
     border: 1px solid #f86103;
     background-color: #f86103;
@@ -45,11 +45,11 @@
     transition: transform 0.2s, box-shadow 0.2s;
  }
 
- .bbtn a:hover{
+ .bbtn .buy:hover{
     transform: scale(1.05);
  }
 
- .bbtn a:active{
+ .bbtn .buy:active{
     transform: translateX(6px) translateY(6px);
     box-shadow: 0px 0px;
  }

@@ -34,7 +34,7 @@
     font-size: 18px;
 }
 
-.loginup-container button{
+.loginup-container .but{
     width: 380px;
     height: 72px;
     color: white;
@@ -73,7 +73,7 @@
         width: 100% ;
     }
 
-    .loginup-container button{
+    .loginup-container .but{
         width: 80px;
         height: 52px;
         border: none;

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import Cart from '../../assets/cart_icon.png'
 import Bar from '../../assets/bar.png'
 import Logo from '../../assets/logo.avif'
+import Logout from '../../pages/logout/logout'
 
 export default function Nav() {
     const [menuOpen,setMenuOpen] = useState(false)
@@ -28,6 +29,7 @@ export default function Nav() {
             <li><Link to='/women'>Women</Link></li>
             <li><Link to='/kid'>Kid</Link></li>
             <li><Link to='/login' className='button'>Login</Link></li>
+            <li><Link to='/logout' className='button'><Logout/></Link></li>
             <li>
                 <div className='res'>
                     <img className='cart' src={Cart}/>            

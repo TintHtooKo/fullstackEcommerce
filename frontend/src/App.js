@@ -11,6 +11,8 @@ import Register from "./pages/register/Register";
 import Footer from "./components/footer/Footer";
 import ProductDetail from "./components/productDetail/ProductDetail";
 import Checkout from "./pages/checkout/Checkout";
+import Success from "./pages/success/Success";
+import Logout from "./pages/logout/logout";
 
 function App() {
   return (
@@ -25,8 +27,10 @@ function App() {
           <Route path="/kid" element={<Kid/>}/>
           <Route path="/login" element={<Login/>}/>
           <Route path="/register" element={<Register/>}/>
+          <Route path="/logout" element={<Logout/>}/>
           <Route path="/productDetail/:id" element={<ProductDetail/>}/>
-          <Route path="/checkout" element={<Checkout/>}/>
+          <Route path="/checkout/:id" element={<Checkout/>}/>
+          <Route path="/success" element = {<Success/>}/>
         </Routes>
         <Footer/>
       </Router>

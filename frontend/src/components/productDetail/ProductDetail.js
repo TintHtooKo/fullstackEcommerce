@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import './ProductDetail.css'
 import Demo from '../../assets/product.png'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 
 export default function ProductDetail() {
+
+  const navigate = useNavigate()
 
   const [detail,setDetail] = useState([])
   const{id} = useParams()
@@ -19,6 +21,12 @@ export default function ProductDetail() {
     ])
   },[])
 
+  const checkoutHandler = (e) =>{
+    e.preventDefault()
+    console.log(id)
+    navigate(`/checkout/${id}`)
+  }
+
   return (
     <div className='detail'>
       <div className='product-image'>
@@ -27,14 +35,14 @@ export default function ProductDetail() {
       <div className='product-detail'>
         <h1>{detail.name}</h1>
         <div className='price'>
-          <h3 className='new-price'>$ {detail.old_price}</h3>
-          <h3 className='old-price'>{detail.new_price}</h3>
+          <h3 className='new-price'>$ {detail.new_price}</h3>
+          <h3 className='old-price'>{detail.old_price}</h3>
         </div>
         <p>
         {detail.desc}
         </p>
         <div className='bbtn'>
-          <Link to='/checkout'>Buy</Link>
+          <button className='buy' onClick={checkoutHandler}>Buy</button>
           <button><i className="fas fa-shopping-cart"></i></button>
         </div>
       </div>

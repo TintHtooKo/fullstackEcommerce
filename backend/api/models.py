@@ -45,9 +45,9 @@ class Checkout(models.Model):
     address = models.TextField()
     product = models.CharField(max_length=100)
     total_price = models.CharField(max_length=100)
-    payment = models.ForeignKey(Payment,on_delete=models.CASCADE, default = 'Cash On Delivering')
+    payment = models.ForeignKey(Payment,on_delete=models.CASCADE, default = '1')
     qty = models.IntegerField(default=None)
-    action = models.ForeignKey(Action,on_delete = models.CASCADE, default = 'Pending')
+    action = models.ForeignKey(Action,on_delete = models.CASCADE, default = '1')
     created_at = models.DateTimeField(default=datetime.now)
 
     

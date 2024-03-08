@@ -1,13 +1,13 @@
 .register{
     width: 100%;
-    height: 120vh;
+    height: 140vh;
     background: #fce3fe;
     padding-top: 50px;
 }
 
 .register-container{
     width: 580px;
-    height: 700px;
+    height: 800px;
     background: white;
     margin: auto;
     padding: 40px 60px;
@@ -34,7 +34,7 @@
     font-size: 18px;
 }
 
-.register-container button{
+.register-container .but{
     width: 380px;
     height: 72px;
     color: white;
@@ -73,7 +73,7 @@
         width: 100% ;
     }
 
-    .register-container button{
+    .register-container .but{
         width: 100px;
         height: 52px;
         border: none;
