@@ -1,12 +1,14 @@
 from .imports import *
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def CheckoutView(request):
     check = Checkout.objects.all()
     seri = CheckoutSerializer(check,many=True)
     return Response(seri.data,status=200)
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def CheckoutCreate(request):
     seri = CheckoutSerializer(data=request.data)
     if seri.is_valid():
@@ -16,6 +18,7 @@ def CheckoutCreate(request):
         return Response(seri.errors,status=500)
     
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def CheckoutDetail(request,che_id):
     try:
         check = Checkout.objects.get(id = che_id)
@@ -25,6 +28,7 @@ def CheckoutDetail(request,che_id):
     return Response(seri.data,status=200)
 
 @api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
 def CheckoutDelete(request,che_id):
     try:
         check = Checkout.objects.get(id = che_id)

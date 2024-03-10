@@ -3,7 +3,21 @@ import './Checkout.css'
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 
+const useAuth = () => {
+  const navigate = useNavigate();
+  const isAuthenticated = localStorage.getItem('accessToken');
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/login'); // Redirect to login page if not authenticated
+    }
+  }, [isAuthenticated, navigate]);
+
+  return isAuthenticated;
+};
+
 export default function Checkout() {
+  useAuth();
   const navigate = useNavigate()
   const [buyDetail,setBuyDetail] = useState([])
   const [qty,setQty] = useState(1);
@@ -88,8 +102,6 @@ useEffect(() => {
     [name]: value,
 }));
 };
-
-
 
 
   return (

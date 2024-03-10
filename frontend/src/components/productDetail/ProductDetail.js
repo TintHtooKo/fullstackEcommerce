@@ -7,7 +7,7 @@ import axios from 'axios'
 export default function ProductDetail() {
 
   const navigate = useNavigate()
-
+  const isAuthenticated = localStorage.getItem('accessToken');
   const [detail,setDetail] = useState([])
   const{id} = useParams()
   useEffect(()=>{
@@ -21,11 +21,16 @@ export default function ProductDetail() {
     ])
   },[])
 
-  const checkoutHandler = (e) =>{
-    e.preventDefault()
-    console.log(id)
-    navigate(`/checkout/${id}`)
-  }
+  const checkoutHandler = (e) => {
+    e.preventDefault();
+    if (!isAuthenticated) {
+      // Redirect the user to the login page if not authenticated
+      navigate('/login');
+    } else {
+      navigate(`/checkout/${id}`);
+    }
+  };
+
 
   return (
     <div className='detail'>
@@ -42,8 +47,12 @@ export default function ProductDetail() {
         {detail.desc}
         </p>
         <div className='bbtn'>
-          <button className='buy' onClick={checkoutHandler}>Buy</button>
-          <button><i className="fas fa-shopping-cart"></i></button>
+          <button className='buy' onClick={checkoutHandler}>
+            Buy
+          </button>
+          <button>
+            <i className='fas fa-shopping-cart'></i>
+          </button>
         </div>
       </div>
     </div>

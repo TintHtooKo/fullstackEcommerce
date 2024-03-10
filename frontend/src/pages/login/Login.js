@@ -25,7 +25,8 @@ export default function Login() {
     try {
       const response = await axios.post('http://localhost:8000/api/login/', formData);
       console.log(response.data); // Handle success
-      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('accessToken', response.data.access);
+      localStorage.setItem('refreshToken', response.data.refresh);
       navigate('/product');
     } catch (error) {
       setError('Invalid username or password.'); // Handle error
