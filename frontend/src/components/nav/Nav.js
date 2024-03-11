@@ -9,41 +9,49 @@ import axios from 'axios'
 export default function Nav() {
     const [menuOpen,setMenuOpen] = useState(false)
     const [authenticated, setAuthenticated] = useState(false);
-
+    const [username,setUsername] = useState('')
     const navigate = useNavigate();
 
+    const fetchUsername = async () => {
+        try {
+            const response = await axios.get('http://localhost:8000/api/user', {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                },
+            });
+            setUsername(response.data.username);
+        } catch (error) {
+            console.error('Failed to fetch username:', error);
+        }
+    };
+
+    
+
     useEffect(() => {
-        // Check if the access token exists in local storage
         const accessToken = localStorage.getItem('accessToken');
         if (accessToken) {
             setAuthenticated(true);
+            fetchUsername(); // Fetch username when accessToken changes
         } else {
             setAuthenticated(false);
+            setUsername('');
         }
-    }, []);
+    }, [localStorage.getItem('accessToken')]);
+    
+    
+    
+
+
 
     const handleLogout = async () => {
         try {
-        // Send a POST request to the logout endpoint
         await axios.post('http://localhost:8000/api/logout/');
-        // Redirect the user to the login page or any other appropriate page
             localStorage.removeItem('accessToken');
             localStorage.removeItem('refreshToken');
             setAuthenticated(false);
             navigate('/login');
         } catch (error) {
-        // Handle any errors if necessary
         console.error('Logout failed:', error);
-        }
-    };
-
-    const handleLogin = async () => {
-        try{
-            setAuthenticated(true)
-            navigate('/product')
-        }catch (error) {
-            // Handle login errors
-            console.error('Login failed:', error);
         }
     };
 
@@ -67,7 +75,10 @@ export default function Nav() {
             <li><Link to='/women'>Women</Link></li>
             <li><Link to='/kid'>Kid</Link></li>
             {localStorage.getItem('accessToken') ? (
-                        <li><button className='button' onClick={handleLogout}>Logout</button></li>
+                        <>
+                            <li><button className='button' onClick={handleLogout}>Logout</button></li>
+                            <li>{username}</li>
+                        </>
                     ) : (
                         <li><Link to='/login' className='button'>Login</Link></li>
                     )}
