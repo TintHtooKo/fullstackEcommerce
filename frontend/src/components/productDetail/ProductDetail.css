@@ -2,14 +2,16 @@
     display: flex;
     align-items: start;
     justify-content: space-around;
-    margin: 50px 50px;
-    padding: 20px;
+    margin-left: 18%;
  }
 
  .product-detail{
     margin: 30px;
  }
 
+ .product-detail p{
+   width: 60%;
+ }
  .product-image img{
     width: 350px;
     height: 450px;
@@ -78,6 +80,16 @@
     box-shadow: 0px 0px;
  }
 
+ @media(max-width:992px){
+   .detail{
+      margin-left: 2%;
+   }
+
+   .product-detail p{
+      width: 100%;
+   }
+ }
+
  @media (max-width:576px){
    .detail{
       flex-direction: column;
@@ -95,9 +107,8 @@
       width: 90%;
    }
 
-   .bbtn a{
+   .bbtn .buy{
       font-size: 1rem;
-      padding: 5px 50px;
    }
 
    .bbtn button i{

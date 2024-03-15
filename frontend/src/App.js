@@ -12,6 +12,9 @@ import Footer from "./components/footer/Footer";
 import ProductDetail from "./components/productDetail/ProductDetail";
 import Checkout from "./pages/checkout/Checkout";
 import Success from "./pages/success/Success";
+import Cart from "./pages/cart/Cart";
+import Profile from "./pages/profile/Profile";
+import Forgetpw from "./components/forgetpw/Forgetpw";
 
 
 function App() {
@@ -30,6 +33,9 @@ function App() {
           <Route path="/productDetail/:id" element={<ProductDetail/>}/>
           <Route path="/checkout/:id" element={<Checkout/>}/>
           <Route path="/success" element = {<Success/>}/>
+          <Route path="/cart" element = {<Cart/>}/>
+          <Route path="/profile" element={<Profile/>}/>
+          <Route path="/forgetpw" element={<Forgetpw/>}/>
         </Routes>
         <Footer/>
       </Router>

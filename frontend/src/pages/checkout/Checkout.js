@@ -18,11 +18,51 @@ const useAuth = () => {
 
 export default function Checkout() {
   useAuth();
+  const{id} = useParams()
   const navigate = useNavigate()
   const [buyDetail,setBuyDetail] = useState([])
   const [qty,setQty] = useState(1);
+  const [email,setEmail] = useState('');
+  const [username,setUsername] = useState('')
+  const [authenticated, setAuthenticated] = useState(false);  
+  const [userId,setUserId] = useState('')
+
+  // autofill username
+  const fetchUsername = async () => {
+    try {
+      const token = localStorage.getItem('accessToken');
+      if (!token) {
+        throw new Error('Access token not found');
+      }
+      const response = await axios.get('http://localhost:8000/api/user/', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setUsername(response.data.username);
+      setEmail(response.data.email);
+      setUserId(response.data.id);
+      console.log(response.data.id);
+    } catch (error) {
+      console.error('Failed to fetch user data:', error);
+      // Handle error, such as redirecting to login page
+    }
+  };
   
-  const{id} = useParams()
+
+useEffect(() => {
+    const accessToken = localStorage.getItem('accessToken');
+    if (accessToken) {
+        setAuthenticated(true);
+        fetchUsername(); // Fetch username when accessToken changes
+    } else {
+        setAuthenticated(false);
+        setUsername('');
+    }
+}, [localStorage.getItem('accessToken')]);
+
+/////////////////////////////////////////
+  
   useEffect(()=>{
     axios
     .get(`http://localhost:8000/api/product/detail/${id}`)
@@ -49,33 +89,67 @@ useEffect(()=>{
 
 
   const [data,setData] = useState({
-    name: '',
-    email: '',
+    name: username || '',
+    email: email || '',
     phone:'',
     address: '',
     product:buyDetail.name || '',
     total_price:'',
-    payment:payment.name,
+    payment: payment.name,
     qty:'1',
+    user:userId
  } )
 
- const handleSubmit = async (e) => {
+
+const handleSubmit = async (e) => {
   e.preventDefault();
-  try {
-    const response = await axios.post('http://localhost:8000/api/checkout/create/', data);
-    console.log('Response:', response.data);
-    navigate('/success');
-  } catch (error) {
-    console.log('Error:', error);
+  const confirmed = window.confirm(`Are you sure to buy ${buyDetail.name}?`);
+  if (confirmed) {
+    try {
+      const token = localStorage.getItem('accessToken');
+      if (!token) {
+        throw new Error('Access token not found');
+      }
+
+      const postData = { ...data, user: userId };
+
+      const response = await axios.post(
+        'http://localhost:8000/api/checkout/create/',
+        postData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      
+      if (response.status === 200) {
+        console.log('Checkout successful:', response.data);
+        navigate('/success');
+      } else {
+        throw new Error('Checkout failed');
+      }
+    } catch (error) {
+      console.error('Error during checkout:', error);
+      if (error.response) {
+        console.error('Response status:', error.response.status);
+        console.error('Response data:', error.response.data);
+      }
+      alert('Failed to checkout. Please try again later.');
+    }
+  } else {
+    alert('Checkout canceled.');
   }
-  // console.log(data);
+  console.log(data);
 };
+
+
 
  const qtyHandler = (e) =>{
   const newQty = parseInt(e.target.value)
   setQty(newQty)
 } 
-
+ 
 useEffect(() => {
   const totalPrice = qty * buyDetail.new_price;
   setData((prevData) => ({
@@ -92,6 +166,24 @@ useEffect(() => {
     }));
   }
 }, [buyDetail]);
+
+useEffect(() => {
+  if (username) {
+    setData((prevData) => ({
+      ...prevData,
+      name: username,
+    }));
+  }
+}, [username]);
+
+useEffect(() => {
+  if (email) {
+    setData((prevData) => ({
+      ...prevData,
+      email: email,
+    }));
+  }
+}, [email]);
 
 
 
@@ -111,11 +203,9 @@ useEffect(() => {
         <div className='check'>
             <img src={`http://localhost:8000${buyDetail.image}`}/>
             <form className='inform was-validated' onSubmit={handleSubmit}>
-              <label className='form-label' >Name</label>
-              <input className='form-control' name='name' type='text' onChange={handleChange} required/>
+              <input className='form-control' name='name' value={username} type='hidden' onChange={handleChange} required/>
 
-              <label className='form-label'>Email</label>
-              <input className='form-control' type='email' name='email' onChange={handleChange}  required/>
+              <input className='form-control' type='hidden' value={email} name='email' onChange={handleChange}  required/>
 
               <label className='form-label'>Phone</label>
               <input className='form-control ph' type='number' name='phone' onChange={handleChange}  required/>

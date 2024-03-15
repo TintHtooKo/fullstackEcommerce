@@ -37,11 +37,6 @@ export default function Nav() {
             setUsername('');
         }
     }, [localStorage.getItem('accessToken')]);
-    
-    
-    
-
-
 
     const handleLogout = async () => {
         try {
@@ -58,39 +53,72 @@ export default function Nav() {
     const clickOpen = () =>{
         setMenuOpen(!menuOpen)
     }
+
+    const handleLinkClick = () => {
+        // Close the menu when a link is clicked
+        setMenuOpen(false);
+    };
+
+    const isAuthenticated = localStorage.getItem('accessToken');
+
+    const CartHandler = (e) => {
+        e.preventDefault();
+        if (!isAuthenticated) {
+          navigate('/login');
+        } else {
+          navigate(`/cart`);
+        }
+      };
   return (
-    <>
     <nav>
+    <div className='nav'>
         <div><h1 className='logo'><Link to='/'><img src={Logo}/></Link></h1></div>
         <div className='res-mob'>
             <img className='cart' src={Cart}/>            
             <div onClick={clickOpen}>
-                <img className='bar' src={Bar} width='50px' height='50px'/>
-            </div> 
+                <img className='bar' src={Bar}/>
+            </div>  
         </div> 
-        <ul className={menuOpen ? "open" : " "}>
+        <ul>
             <li><Link to='/'>Home</Link></li>
             <li><Link to='/product'>Product</Link></li>
             <li><Link to='/men'>Men</Link></li>
             <li><Link to='/women'>Women</Link></li>
             <li><Link to='/kid'>Kid</Link></li>
-            {localStorage.getItem('accessToken') ? (
+        </ul>
+        <ul className='mobile'>
+        <li>
+            <div className='res'>
+                <Link to='/cart'><img onClick={CartHandler} className='cart' src={Cart}/> </Link>           
+            </div> 
+        </li>
+        {localStorage.getItem('accessToken') ? (
                         <>
-                            <li><button className='button' onClick={handleLogout}>Logout</button></li>
-                            <li>{username}</li>
+                            <li><Link to='/profile'>{username}</Link></li>
+                            <li><button className='button' onClick={handleLogout}>Logout</button></li>                           
                         </>
                     ) : (
                         <li><Link to='/login' className='button'>Login</Link></li>
                     )}
-            <li>
-                <div className='res'>
-                    <img className='cart' src={Cart}/>            
-                </div> 
-            </li>
-        </ul>
-            
+        </ul>           
+    </div>
+        <div className='mobile'>
+            <ul  className={menuOpen ? "open" : " "}>
+            <li><Link onClick={handleLinkClick} to='/'>Home</Link></li>
+            <li><Link onClick={handleLinkClick} to='/product'>Product</Link></li>
+            <li><Link onClick={handleLinkClick} to='/men'>Men</Link></li>
+            <li><Link onClick={handleLinkClick} to='/women'>Women</Link></li>
+            <li><Link onClick={handleLinkClick} to='/kid'>Kid</Link></li>
+            {localStorage.getItem('accessToken') ? (
+                        <>
+                            <li><Link to='/profile'>{username}</Link></li>
+                            <li><button className='button' onClick={handleLogout}>Logout</button></li>                           
+                        </>
+                    ) : (
+                        <li><Link to='/login' className='button'>Login</Link></li>
+                    )}
+            </ul>
+        </div>
     </nav>
-      
-    </>
   )
 }

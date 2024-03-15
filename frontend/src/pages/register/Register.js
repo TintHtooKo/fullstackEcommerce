@@ -11,7 +11,7 @@ export default function Register() {
     password: '',
     confirm_password: ''
   });
-
+  const [successMessage, setSuccessMessage] = useState('');
   const [error,setError] = useState('')
 
   const handleChange = (e) => {
@@ -25,9 +25,18 @@ export default function Register() {
       return;
     }
     try {
+      const emailExistsResponse = await axios.get(`http://localhost:8000/api/check_mail/${formData.email}`);
+      if (emailExistsResponse.data.exists) {
+        setError("Email is already registered");
+        return;
+      }
+
       const response = await axios.post('http://localhost:8000/api/register/', formData);
-      console.log(response.data); // Handle success
-      navigate('/login');
+      // console.log(response.data); // Handle success
+        setSuccessMessage("Registration successful. You can now login.");
+        navigate('/login', { state: { successMessage: "Registration successful. You can now login." } });
+
+
     } catch (error) {
       setError("Something was wrong. Please Try Again"); // Handle error
     }
@@ -40,6 +49,10 @@ export default function Register() {
                     {error}
                     <button type="button" className="btn-close" onClick={() => setError(null)} aria-label="Close"></button>
                   </div>}
+        {successMessage && <div className="alert alert-success alert-dismissible fade show" role="alert">
+          {successMessage}
+          <button type="button" className="btn-close" onClick={() => setSuccessMessage(null)} aria-label="Close"></button>
+        </div>}
         <form onSubmit={handleSubmit} className="register-fields">
           <input type="text" placeholder="Username" name='username' onChange={handleChange} required />
           <input type="email" placeholder="Email Address" name='email' onChange={handleChange} required />

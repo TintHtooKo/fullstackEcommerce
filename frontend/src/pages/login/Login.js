@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './Login.css'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import axios from 'axios';
 
 export default function Login() {
@@ -9,7 +9,16 @@ export default function Login() {
     username: '',
     password: ''
   });
+  const locationState = useLocation().state;
+  const [successMessage, setSuccessMessage] = useState('');
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (locationState && locationState.successMessage) {
+      setSuccessMessage(locationState.successMessage);
+    }
+  }, [locationState]);
+
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -40,6 +49,12 @@ export default function Login() {
                     {error}
                     <button type="button" className="btn-close" onClick={() => setError(null)} aria-label="Close"></button>
                   </div>}
+        {successMessage && (
+          <div className="alert alert-success alert-dismissible fade show" role="alert">
+            {successMessage}
+            <button type="button" className="btn-close" onClick={() => setSuccessMessage(null)} aria-label="Close"></button>
+          </div>
+        )}
         <form onSubmit={handleSubmit} className="loginup-fields">
           <input type="text" name='username' placeholder="Username" onChange={handleChange} />
           <input type="password" name='password' placeholder="Password" onChange={handleChange} />
@@ -47,6 +62,7 @@ export default function Login() {
           <p className="loginup-login">
             Do you have an account? <span><Link to='/register'>Register Here!</Link></span>
           </p>
+          <p><Link to='/forgetpw'>Forget Password</Link></p>
 
         </form>
       </div>

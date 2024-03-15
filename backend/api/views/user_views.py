@@ -1,11 +1,14 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+# Assuming you are using Django and Django REST Framework
 
-class UsernameView(APIView):
-    permission_classes = [IsAuthenticated]
+from .imports import *
 
-    def get(self, request, format=None):
-        # Retrieve the username of the authenticated user
-        username = request.user.username
-        return Response({'username': username})
+class UserDetailView(APIView):
+    def get(self, request):
+        user = request.user  # Assuming the user is authenticated
+        serialized_user = UserSerializer(user)  # Serialize the user data
+        return Response({
+            'id': user.id,  # Include the id field in the response
+            'username': serialized_user.data['username'],
+            'email': serialized_user.data['email'],
+            # Include other user fields as needed
+        }, status=status.HTTP_200_OK)

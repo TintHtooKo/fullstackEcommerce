@@ -37,6 +37,7 @@ class PaymentSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class CheckoutSerializer(serializers.ModelSerializer):
+    action = ActionSerializer()
     class Meta:
         model = Checkout
         fields = '__all__'
@@ -62,3 +63,8 @@ class UserSerializer(serializers.ModelSerializer):
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField()
+
+class PasswordResetSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField()
+    confirm_password = serializers.CharField()

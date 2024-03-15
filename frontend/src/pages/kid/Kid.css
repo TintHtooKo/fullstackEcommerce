@@ -51,5 +51,6 @@
 
     .kid-collections{
         grid-template-columns: 1fr;
+        margin-left: 22%;
     }
 }

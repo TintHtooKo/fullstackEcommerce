@@ -11,7 +11,6 @@ export default function NewCollection() {
     axios
     .get('http://localhost:8000/api/new_collect/')
     .then((resp)=>{
-      console.log(resp.data)
       setCollect(resp.data)
     })
     .catch((err)=>{

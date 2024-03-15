@@ -36,3 +36,19 @@ def CheckoutDelete(request,che_id):
         return Response({"msg":"error"},status=500)
     check.delete()
     return Response({"msg":"delete"},status=200)
+
+# @api_view(['GET'])
+# @permission_classes([IsAuthenticated])
+# def CheckoutHistory(request):
+#     email = request.user.email
+#     check = Checkout.objects.filter(email=email)
+#     seri = CheckoutSerializer(check, many=True)
+#     return Response(seri.data, status=200)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def checkout_history(request):
+    user = request.user
+    checkout_history = Checkout.objects.filter(user_id=user.id).select_related('action')
+    serializer = CheckoutSerializer(checkout_history, many=True)
+    return JsonResponse(serializer.data, safe=False)

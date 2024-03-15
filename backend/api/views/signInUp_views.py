@@ -1,7 +1,7 @@
 from .imports import *
 
 @api_view(['POST'])
-def user_registration(request):
+def user_registration(request): 
     if request.method == 'POST':
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():

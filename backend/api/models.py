@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import datetime
 from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import User
 
 class CustomUser(AbstractUser):
     groups = models.ManyToManyField(
@@ -54,6 +55,7 @@ class Payment(models.Model):
     
 class Checkout(models.Model):
     id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     email = models.EmailField(default=None)
     phone = models.IntegerField(default=None)
@@ -65,4 +67,6 @@ class Checkout(models.Model):
     action = models.ForeignKey(Action,on_delete = models.CASCADE, default = '1')
     created_at = models.DateTimeField(default=datetime.now)
 
+    def __str__(self):
+        return self.name
     

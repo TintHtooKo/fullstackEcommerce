@@ -1,5 +1,5 @@
 from django.urls import path
-from api.views import user_views,signInUp_views,payment_views,checkout_views,action_views,kid_views,category_views,collections_views,product_views,newCollection_views,men_views,women_views
+from api.views import forgetpw_views,user_views,signInUp_views,payment_views,checkout_views,action_views,kid_views,category_views,collections_views,product_views,newCollection_views,men_views,women_views
 
 urlpatterns = [
     # category
@@ -46,13 +46,21 @@ urlpatterns = [
     path('checkout/create/',checkout_views.CheckoutCreate),
     path('checkout/detail/<int:che_id>',checkout_views.CheckoutDetail),
     path('checkout/delete/<int:che_id>',checkout_views.CheckoutDelete),
+    path('checkout/history/',checkout_views.checkout_history),
 
     # register login logout
     path('register/',signInUp_views.user_registration),
     path('login/',signInUp_views.user_login),
     path('logout/',signInUp_views.user_logout),
+
+    # check mail
     path('check_mail/<str:email>',signInUp_views.check_email),
 
     # user view
-    path('user/',user_views.UsernameView.as_view()),
+    path('user/',user_views.UserDetailView.as_view()),
+
+    # forget password
+    path('reset-password/',forgetpw_views.PasswordResetAPIView.as_view())
+     
+
 ]
