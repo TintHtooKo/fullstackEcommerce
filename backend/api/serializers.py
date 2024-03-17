@@ -41,6 +41,11 @@ class CheckoutSerializer(serializers.ModelSerializer):
     class Meta:
         model = Checkout
         fields = '__all__'
+    def create(self, validated_data):
+        action_data = validated_data.pop('action')  # Extract action data
+        checkout = Checkout.objects.create(**validated_data)
+        Action.objects.create(checkout=checkout, **action_data)  # Create Action instance
+        return checkout
 
 class UserSerializer(serializers.ModelSerializer):
     confirm_password = serializers.CharField(write_only=True)

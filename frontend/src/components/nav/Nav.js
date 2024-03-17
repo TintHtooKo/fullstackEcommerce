@@ -94,7 +94,7 @@ export default function Nav() {
         </li>
         {localStorage.getItem('accessToken') ? (
                         <>
-                            <li><Link to='/profile'>{username}</Link></li>
+                            <li><Link to='/profile' style={{textDecoration:'underline'}}>{username}</Link></li>
                             <li><button className='button' onClick={handleLogout}>Logout</button></li>                           
                         </>
                     ) : (
@@ -111,7 +111,7 @@ export default function Nav() {
             <li><Link onClick={handleLinkClick} to='/kid'>Kid</Link></li>
             {localStorage.getItem('accessToken') ? (
                         <>
-                            <li><Link to='/profile'>{username}</Link></li>
+                            <li><Link to='/profile' style={{textDecoration:'underline'}}>{username}</Link></li>
                             <li><button className='button' onClick={handleLogout}>Logout</button></li>                           
                         </>
                     ) : (

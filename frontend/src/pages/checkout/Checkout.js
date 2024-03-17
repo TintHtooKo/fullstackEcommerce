@@ -26,6 +26,9 @@ export default function Checkout() {
   const [username,setUsername] = useState('')
   const [authenticated, setAuthenticated] = useState(false);  
   const [userId,setUserId] = useState('')
+  const [payment,setPayment] = useState([])
+  const [action,setAction] = useState({})
+
 
   // autofill username
   const fetchUsername = async () => {
@@ -74,7 +77,7 @@ useEffect(() => {
     ])
   },[])
 
-  const [payment,setPayment] = useState([])
+  
 
 useEffect(()=>{
   axios
@@ -88,6 +91,8 @@ useEffect(()=>{
 },[])
 
 
+
+
   const [data,setData] = useState({
     name: username || '',
     email: email || '',
@@ -97,7 +102,8 @@ useEffect(()=>{
     total_price:'',
     payment: payment.name,
     qty:'1',
-    user:userId
+    user:userId,
+    action:{name:'Pending'},
  } )
 
 
@@ -134,6 +140,7 @@ const handleSubmit = async (e) => {
       if (error.response) {
         console.error('Response status:', error.response.status);
         console.error('Response data:', error.response.data);
+        
       }
       alert('Failed to checkout. Please try again later.');
     }
@@ -228,6 +235,9 @@ useEffect(() => {
                   <option key={payment.id} value={payment.id}>{payment.name}</option>
                 ))}
               </select>
+
+
+
               <button type='submit'>Checkout</button>
             </form>
         </div>
