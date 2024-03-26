@@ -1,66 +1,114 @@
-import React from "react";
-import "./CartItem.css";
-import removeIcon from "../../assets/cart_cross_icon.png";
-import Demo from '../../assets/product.png'
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useNavigate, useParams } from 'react-router-dom';
+
+const useAuth = () => {
+  const navigate = useNavigate();
+  const isAuthenticated = localStorage.getItem('accessToken');
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/login'); // Redirect to login page if not authenticated
+    }
+  }, [isAuthenticated, navigate]);
+
+  return isAuthenticated;
+};
 
 export default function CartItem() {
+  const Authenticated = useAuth();
+  const [cart, setCart] = useState([]);
+  const{id} = useParams()
+  const navigate = useNavigate();
+  const fetchCart = async () => {
+    try {
+      const accessToken = localStorage.getItem('accessToken');
+      const response = await axios.get('http://localhost:8000/api/cart', {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      setCart(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error('Error fetching cart:', error);
+    }
+  };
 
+  useEffect(() => {
+    if (Authenticated) {
+      fetchCart();
+    }
+  }, [Authenticated]);  // Fetch cart whenever the user changes
+
+  const removeFromCart = async (productId) => {
+    try {
+      if (!productId || typeof productId !== 'number') {
+        console.error('Invalid productId:', productId);
+        return; // Exit the function early if productId is invalid
+      }
+      const accessToken = localStorage.getItem('accessToken');
+      await axios.delete(`http://localhost:8000/api/cart/delete/${productId}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      // After removing from cart, fetch updated cart data
+      fetchCart();
+      alert("Remove cart successfully");
+    } catch (error) {
+      console.error('Error removing from cart:', error);
+      if (error.response) {
+        console.error('Response data:', error.response.data);
+      }
+    }
+  };
+
+  const navigateToDetail = (productId) => {
+    navigate(`/productDetail/${productId}`);
+  };
+
+  
   return (
-    <div className="cartitem">
-      <div className="cartitem-format-main">
-        <p>Product</p>
-        <p>Title</p>
-        <p>Price</p>
-        <p>Quantity</p>
-        <p>Total</p>
-        <p>Remove</p>
-      </div>
-      <hr />
-      
-            <div>
-              <div className="cartitem-format cartitem-format-main">
-                <img src={Demo} className="cartitem-product-icon" />
-                <p>Product 1</p>
-                <p>$ 20</p>
-                <button className="cartitem-quantity">1</button>
-                <p>$20</p>
-                <img
-                  className="cartitem-remove-icon"
-                  src={removeIcon}
-                />
-              </div>
-              <hr />
-            </div>
-          
-      {/* <div className="cartitem-down">
-        <div className="cartitem-total">
-          <h2>Cart Total</h2>
-          <div>
-            <div className="cartitem-total-item">
-              <p>SubTotal</p>
-              <p>$20</p>
-            </div>
-            <hr />
-            <div className="cartitem-total-item">
-              <p>Saving Fee</p>
-              <p>Free</p>
-            </div>
-            <hr />
-            <div className="cartitem-total-item">
-              <h3>Total</h3>
-              <h3>$20</h3>
-            </div>
-          </div>
-          <button>PROCEED TO CHECKOUT</button>
-        </div>
-        <div className="cartitem-promo">
-          <p>If You have a promo code, Enter it here</p>
-          <div className="cartitem-promobox">
-            <input type="text" placeholder="Promo Code" />
-            <button>Submit</button>
-          </div>
-        </div>
-      </div> */}
+    <div>
+      {cart && cart.length === 0 ? (
+        <p className='text-center'>No items in cart</p>
+      ) : (
+        <table className="table table-striped">
+          <thead>
+            <tr>
+            <th scope="col"></th>
+              <th scope="col">Image</th>
+              <th scope="col">Name</th>
+              <th scope="col">Price</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {cart && cart.map((item,id) => (
+              // image,product,price and pro_id are from backend view cart
+              <tr key={id}>
+                <th></th>
+                <th scope="row">
+                  <img src={`http://localhost:8000${item.image}`} style={{ width: '50px', height: '50px' }} alt="Product" />
+                </th>
+                <td>{item.product}</td>
+                <td>$ {item.price}</td>
+                <td>
+                  <button 
+                  style={{background:'yellow',color:'black',border:'none',padding:'10px 15px',borderRadius:'10px'}} 
+                  onClick={() => navigateToDetail(item.pro_id)}>Detail</button>
+                  <button 
+                  style={{background:'red',color:'white',border:'none',padding:'10px 15px',borderRadius:'10px',marginLeft:'10px'}} 
+                  onClick={() => removeFromCart(item.id)}>
+                    Delete
+                  </button>                 
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 }

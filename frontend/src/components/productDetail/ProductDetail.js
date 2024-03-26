@@ -21,6 +21,27 @@ export default function ProductDetail() {
     ])
   },[])
 
+  const addToCartHandler = async () => {
+    try {
+      const response = await axios.post(`http://localhost:8000/api/cart/create/${id}`, null, {
+        headers: {
+          Authorization: `Bearer ${isAuthenticated}`,
+        },
+      });
+      alert('Product added to cart!');
+      console.log('Success:', response.data);
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        // Redirect the user to the login page if not authenticated
+        navigate('/login');
+      } else {
+        console.error('Error adding to cart:', error);
+      }
+    }
+  };
+
+
+
   const checkoutHandler = (e) => {
     e.preventDefault();
     if (!isAuthenticated) {
@@ -50,7 +71,7 @@ export default function ProductDetail() {
           <button className='buy' onClick={checkoutHandler}>
             Buy
           </button>
-          <button>
+          <button onClick={addToCartHandler}>
             <i className='fas fa-shopping-cart'></i>
           </button>
         </div>

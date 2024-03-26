@@ -28,6 +28,6 @@ export default function Men() {
         ))
       }
       </div>
-    </div>
+    </div> 
   )
 }

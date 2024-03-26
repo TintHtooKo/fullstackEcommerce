@@ -1,5 +1,5 @@
 from django.urls import path
-from api.views import forgetpw_views,user_views,signInUp_views,payment_views,checkout_views,action_views,kid_views,category_views,collections_views,product_views,newCollection_views,men_views,women_views
+from api.views import add_to_cart_views,forgetpw_views,user_views,signInUp_views,payment_views,checkout_views,action_views,kid_views,category_views,collections_views,product_views,newCollection_views,men_views,women_views
 
 urlpatterns = [
     # category
@@ -50,6 +50,7 @@ urlpatterns = [
 
     # register login logout
     path('register/',signInUp_views.user_registration),
+    path('send_verification_email/',signInUp_views.send_verification_email),
     path('login/',signInUp_views.user_login),
     path('logout/',signInUp_views.user_logout),
 
@@ -60,7 +61,10 @@ urlpatterns = [
     path('user/',user_views.UserDetailView.as_view()),
 
     # forget password
-    path('reset-password/',forgetpw_views.PasswordResetAPIView.as_view())
-     
+    path('reset-password/',forgetpw_views.PasswordResetAPIView.as_view()),
 
+    # add to cart
+    path('cart/create/<int:product_id>',add_to_cart_views.create_cart),
+    path('cart/',add_to_cart_views.view_cart),
+    path('cart/delete/<int:item_id>',add_to_cart_views.delete_cart_item),
 ]

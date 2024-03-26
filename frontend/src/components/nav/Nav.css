@@ -7,10 +7,21 @@
     padding: 10px 10px;
 }
 
-.cart{
+.res .cart{
     width: 40px;
     height: 40px;
     cursor: pointer;
+    position: absolute;
+}
+
+.res p{
+    position: relative;
+    top: 15px;
+    right: 10px;
+    background-color: rgba(225,0,0);
+    padding: 5px;
+    border-radius: 50px;
+    color: white;
 }
 
 .logo a img{
@@ -89,10 +100,22 @@ ul li a:hover{
         display: flex;
     }
 
-    .cart{
+    .res-mob .cart{
         width: 30px;
         height: 30px;
-        margin-right: 20px;
+        margin-right: 40px;
+        position: absolute;
+        right: 20px;
+    }
+
+    .res-mob p{
+        position: relative;
+        background-color: red;
+        padding: 5px;
+        color: white;
+        border-radius: 50px;
+        top: 10px;
+        right: 40px;
     }
 
     .bar{

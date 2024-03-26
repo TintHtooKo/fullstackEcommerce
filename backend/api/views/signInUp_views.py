@@ -9,6 +9,21 @@ def user_registration(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+def send_verification_email(request, user):
+    token_generator = default_token_generator
+    uid = urlsafe_base64_encode(force_bytes(user.pk))
+    token = token_generator.make_token(user)
+
+    # Construct verification URL
+    verification_url = f"{request.build_absolute_uri('/')}/verify-email/{uid}/{token}/"
+
+    # Email content
+    email_subject = "Verify your email"
+    email_body = f"Please click the following link to verify your email: {verification_url}"
+
+    # Send email
+    send_mail(email_subject, email_body, None, [user.email])
+    
 @api_view(['GET'])
 def check_email(request, email):
     email_exists = User.objects.filter(email=email).exists()

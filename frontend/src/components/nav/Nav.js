@@ -11,6 +11,7 @@ export default function Nav() {
     const [authenticated, setAuthenticated] = useState(false);
     const [username,setUsername] = useState('')
     const navigate = useNavigate();
+    const [cartCount, setCartCount] = useState(0); 
 
     const fetchUsername = async () => {
         try {
@@ -36,6 +37,8 @@ export default function Nav() {
             setAuthenticated(false);
             setUsername('');
         }
+        const storedCartCount = parseInt(localStorage.getItem('cartCount')) || 0;
+        setCartCount(storedCartCount);
     }, [localStorage.getItem('accessToken')]);
 
     const handleLogout = async () => {
@@ -74,7 +77,8 @@ export default function Nav() {
     <div className='nav'>
         <div><h1 className='logo'><Link to='/'><img src={Logo}/></Link></h1></div>
         <div className='res-mob'>
-            <img className='cart' src={Cart}/>            
+            <img className='cart' onClick={CartHandler} src={Cart}/>   
+            <p>{cartCount}</p>         
             <div onClick={clickOpen}>
                 <img className='bar' src={Bar}/>
             </div>  
@@ -89,7 +93,8 @@ export default function Nav() {
         <ul className='mobile'>
         <li>
             <div className='res'>
-                <Link to='/cart'><img onClick={CartHandler} className='cart' src={Cart}/> </Link>           
+                <Link to='/cart'><img onClick={CartHandler} className='cart' src={Cart}/> </Link> 
+                <p>{cartCount}</p>          
             </div> 
         </li>
         {localStorage.getItem('accessToken') ? (
@@ -111,7 +116,7 @@ export default function Nav() {
             <li><Link onClick={handleLinkClick} to='/kid'>Kid</Link></li>
             {localStorage.getItem('accessToken') ? (
                         <>
-                            <li><Link to='/profile' style={{textDecoration:'underline'}}>{username}</Link></li>
+                            <li><Link to='/profile' onClick={handleLinkClick} style={{textDecoration:'underline'}}>{username}</Link></li>
                             <li><button className='button' onClick={handleLogout}>Logout</button></li>                           
                         </>
                     ) : (

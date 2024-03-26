@@ -9,7 +9,7 @@ export default function Register() {
     username: '',
     email: '',
     password: '',
-    confirm_password: ''
+    confirm_password: '',
   });
   const [successMessage, setSuccessMessage] = useState('');
   const [error,setError] = useState('')
@@ -17,6 +17,8 @@ export default function Register() {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -58,6 +60,13 @@ export default function Register() {
           <input type="email" placeholder="Email Address" name='email' onChange={handleChange} required />
           <input type="password" placeholder="Password" name='password' onChange={handleChange} required />
           <input type="password" placeholder="Confirm Password" name='confirm_password' onChange={handleChange} required />
+          <label className='check'>
+            <input
+              type="checkbox"
+              required
+            />
+            Send verification email
+          </label>
           <button className='but' type='submit'>Register</button>
           <p className="register-login">
             Already have an account? <span><Link to='/login'>Login Here!</Link></span>

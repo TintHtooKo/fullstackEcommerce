@@ -53,6 +53,17 @@
     font-weight: 500;
 }
 
+.check{
+    display: flex;
+    gap: 0;
+}
+
+.check input{
+    width: 20px;
+    height: 20px;
+    padding: 0;
+}
+
 .register-login span{
     color: #ff4141;
     font-weight: 600;

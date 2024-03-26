@@ -73,3 +73,8 @@ class PasswordResetSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField()
     confirm_password = serializers.CharField()
+
+class CartItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = '__all__'
