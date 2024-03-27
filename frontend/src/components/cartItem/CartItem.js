@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useCart } from '../cartContext/cartContext';
 
 const useAuth = () => {
   const navigate = useNavigate();
@@ -20,6 +21,8 @@ export default function CartItem() {
   const [cart, setCart] = useState([]);
   const{id} = useParams()
   const navigate = useNavigate();
+  const{cartCount,updateCartCount} = useCart()
+
   const fetchCart = async () => {
     try {
       const accessToken = localStorage.getItem('accessToken');
@@ -35,11 +38,13 @@ export default function CartItem() {
     }
   };
 
+
   useEffect(() => {
     if (Authenticated) {
       fetchCart();
     }
   }, [Authenticated]);  // Fetch cart whenever the user changes
+  
 
   const removeFromCart = async (productId) => {
     try {
@@ -55,6 +60,11 @@ export default function CartItem() {
       });
       // After removing from cart, fetch updated cart data
       fetchCart();
+      const updatedCartCount = cartCount - 1;
+      updateCartCount(updatedCartCount);
+      if (updatedCartCount === 0) {
+        localStorage.removeItem('cartCount'); // Remove cart count from local storage if cart becomes empty
+      }
       alert("Remove cart successfully");
     } catch (error) {
       console.error('Error removing from cart:', error);

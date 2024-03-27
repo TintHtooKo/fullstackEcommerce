@@ -3,6 +3,7 @@ import './ProductDetail.css'
 import Demo from '../../assets/product.png'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
+import { useCart } from '../cartContext/cartContext'
 
 export default function ProductDetail() {
 
@@ -10,6 +11,7 @@ export default function ProductDetail() {
   const isAuthenticated = localStorage.getItem('accessToken');
   const [detail,setDetail] = useState([])
   const{id} = useParams()
+  const {cartCount,updateCartCount} = useCart()
   useEffect(()=>{
     axios
     .get(`http://localhost:8000/api/product/detail/${id}`)
@@ -21,6 +23,8 @@ export default function ProductDetail() {
     ])
   },[])
 
+  
+
   const addToCartHandler = async () => {
     try {
       const response = await axios.post(`http://localhost:8000/api/cart/create/${id}`, null, {
@@ -28,6 +32,7 @@ export default function ProductDetail() {
           Authorization: `Bearer ${isAuthenticated}`,
         },
       });
+      updateCartCount(cartCount + 1);
       alert('Product added to cart!');
       console.log('Success:', response.data);
     } catch (error) {

@@ -5,13 +5,14 @@ import Cart from '../../assets/cart_icon.png'
 import Bar from '../../assets/bar.png'
 import Logo from '../../assets/logo.avif'
 import axios from 'axios'
+import { useCart } from '../cartContext/cartContext'
 
 export default function Nav() {
     const [menuOpen,setMenuOpen] = useState(false)
     const [authenticated, setAuthenticated] = useState(false);
     const [username,setUsername] = useState('')
     const navigate = useNavigate();
-    const [cartCount, setCartCount] = useState(0); 
+    const {cartCount, updateCartCount} = useCart()
 
     const fetchUsername = async () => {
         try {
@@ -25,7 +26,22 @@ export default function Nav() {
             console.error('Failed to fetch username:', error);
         }
     };
-
+    
+    const fetchCartCount = async () => {
+        try {
+            const response = await axios.get('http://localhost:8000/api/cart/', {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                },
+            });
+            const cartCount = response.data.length; // Assuming the response is an array of cart items
+            localStorage.setItem('cartCount', cartCount); // Store count in local storage
+            updateCartCount(cartCount); // Update cart count in the context
+        } catch (error) {
+            console.error('Error fetching cart count:', error);
+        }
+    };
+    
     
 
     useEffect(() => {
@@ -33,13 +49,17 @@ export default function Nav() {
         if (accessToken) {
             setAuthenticated(true);
             fetchUsername(); // Fetch username when accessToken changes
+            fetchCartCount()
         } else {
             setAuthenticated(false);
             setUsername('');
         }
-        const storedCartCount = parseInt(localStorage.getItem('cartCount')) || 0;
-        setCartCount(storedCartCount);
     }, [localStorage.getItem('accessToken')]);
+
+    const clearCartCountOnLogout = () => {
+        localStorage.removeItem('cartCount');
+      };
+    
 
     const handleLogout = async () => {
         try {
@@ -47,6 +67,8 @@ export default function Nav() {
             localStorage.removeItem('accessToken');
             localStorage.removeItem('refreshToken');
             setAuthenticated(false);
+            clearCartCountOnLogout();
+            updateCartCount(0);
             navigate('/login');
         } catch (error) {
         console.error('Logout failed:', error);

@@ -25,6 +25,20 @@ export default function Login() {
     setError(''); // Clear error when input changes
   };
 
+  const updateCartCountOnLogin = async () => {
+    try {
+      const response = await axios.get('http://localhost:8000/api/cart/', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        },
+      });
+      const cartCount = response.data.length.toString(); // Assuming the response is an array of cart items
+      localStorage.setItem('cartCount', cartCount); // Store count in local storage
+    } catch (error) {
+      console.error('Error fetching cart count:', error);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.username || !formData.password) {
@@ -36,6 +50,7 @@ export default function Login() {
       console.log(response.data); // Handle success
       localStorage.setItem('accessToken', response.data.access);
       localStorage.setItem('refreshToken', response.data.refresh);
+      await updateCartCountOnLogin();
       navigate('/product');
     } catch (error) {
       setError('Invalid username or password.'); // Handle error
